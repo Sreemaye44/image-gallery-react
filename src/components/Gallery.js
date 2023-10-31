@@ -1,53 +1,84 @@
 import React from "react";
-import img1 from "../assets/ollyo1.jpg";
-import img2 from "../assets/ollyo2.jpg";
-import img3 from "../assets/ollyo3.jpg";
-import img4 from "../assets/ollyo4.jpg";
-import img5 from "../assets/ollyo8.jpg";
-import img6 from "../assets/ollyo6.jpg";
-import img7 from "../assets/ollyo7.jpg";
+import blueHead from "../assets/images/image-1.webp";
+import greenHead from "../assets/images/image-2.webp";
+import pinkHead from "../assets/images/image-3.webp";
+import redHead from "../assets/images/image-4.webp";
+import yellowHead from "../assets/images/image-5.webp";
+import whiteHead from "../assets/images/image-6.webp";
+import blackWatch from "../assets/images/image-7.webp";
+import orangeWatch from "../assets/images/image-8.webp";
+import blueWatch from "../assets/images/image-9.webp";
+import home from "../assets/images/image-10.jpeg";
+import telephone from "../assets/images/image-11.jpeg";
+
 
 const Gallery = () => {
   let data = [
     {
       id: 1,
-      imgSrc: img1,
+      imgSrc: blueHead,
     },
     {
       id: 2,
-      imgSrc: img2,
+      imgSrc: greenHead,
     },
     {
       id: 3,
-      imgSrc: img3,
+      imgSrc: pinkHead,
     },
     {
       id: 4,
-      imgSrc: img4,
+      imgSrc: redHead,
     },
     {
       id: 5,
-      imgSrc: img5,
+      imgSrc: yellowHead,
     },
     {
       id: 6,
-      imgSrc: img6,
+      imgSrc: whiteHead,
     },
     {
       id: 7,
-      imgSrc: img7,
+      imgSrc: blackWatch,
+    },
+    {
+      id: 8,
+      imgSrc: orangeWatch,
+    },
+    {
+      id: 9,
+      imgSrc: blueWatch,
+    },
+    {
+      id: 10,
+      imgSrc: home,
+    },
+    {
+      id: 11,
+      imgSrc: telephone,
     },
   ];
   return (
     <>
       {
-        <div className="grid grid-cols-3 gap-4">
-          {data.map((item, index) => (
-            <div key={index}  className={`col-span-${index === 0 ? '2' : '1'}`}>
-              <img src={item.imgSrc} className="w-full" />
+        <div className="grid grid-cols-5 gap-6">
+      {data.map((data, index) => {
+        if (index === 0) {
+          return (
+            <div key={index} className="col-span-2 row-span-2">
+              <img src={data.imgSrc} alt=""  className="border rounded-lg w-full h-full object-cover" />
             </div>
-          ))}
-        </div>
+          );
+        } else {
+          return (
+            <div key={index} className="col-span-1">
+              <img src={data.imgSrc} alt="" className="border rounded-lg w-full h-full object-cover" />
+            </div>
+          );
+        }
+      })}
+    </div>
       }
     </>
   );
