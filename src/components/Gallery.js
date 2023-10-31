@@ -41,13 +41,12 @@ const Gallery = () => {
   return (
     <>
       {
-        <div>
-          {data.map((item, index) => 
-              <div key={index}>
-                <img src={item.imgSrc} />
-              </div>
-            
-          )}
+        <div className="grid grid-cols-3 gap-4">
+          {data.map((item, index) => (
+            <div key={index}  className={`col-span-${index === 0 ? '2' : '1'}`}>
+              <img src={item.imgSrc} className="w-full" />
+            </div>
+          ))}
         </div>
       }
     </>
