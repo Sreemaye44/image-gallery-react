@@ -13,7 +13,7 @@ import blueWatch from "../assets/images/image-9.webp";
 import "./Gallery.css";
 
 const Gallery = () => {
-  let data = [
+  let initialData = [
     {
       id: 1,
       imgSrc: telephone,
@@ -59,6 +59,7 @@ const Gallery = () => {
       imgSrc: blueHead,
     },
   ];
+  const [data, setData] = useState(initialData);
   const [checkboxStates, setCheckboxStates] = useState(
     new Array(data.length).fill(false)
   );
@@ -68,6 +69,12 @@ const Gallery = () => {
      updatedStates[index] = !updatedStates[index];
      setCheckboxStates(updatedStates);
    };
+
+   const handleDeleteImages=()=>{
+const updatedData = data.filter((_, index) => !checkboxStates[index]);
+    setData(updatedData);
+    setCheckboxStates(new Array(updatedData.length).fill(false));
+   }
   return (
     <>
       <div>
@@ -83,7 +90,11 @@ const Gallery = () => {
                 checkboxStates.filter((isChecked) => isChecked).length
               } files Selected`}</h1>
             </div>
-            <p className="text-red-500">Delete files</p>
+            <div onClick={handleDeleteImages}>
+              <p className="text-red-500 cursor-pointer hover:underline">
+                Delete files
+              </p>
+            </div>
           </div>
         ) : (
           <h1 className="text-2xl font-bold px-8 py-5">Gallery</h1>
