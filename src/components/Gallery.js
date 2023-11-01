@@ -11,51 +11,52 @@ import blackWatch from "../assets/images/image-7.webp";
 import orangeWatch from "../assets/images/image-8.webp";
 import blueWatch from "../assets/images/image-9.webp";
 import "./Gallery.css";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const Gallery = () => {
   let initialData = [
     {
-      id: 1,
+      id: 0,
       imgSrc: telephone,
     },
     {
-      id: 2,
+      id: 1,
       imgSrc: greenHead,
     },
     {
-      id: 3,
+      id: 2,
       imgSrc: pinkHead,
     },
     {
-      id: 4,
+      id: 3,
       imgSrc: redHead,
     },
     {
-      id: 5,
+      id: 4,
       imgSrc: yellowHead,
     },
     {
-      id: 6,
+      id: 5,
       imgSrc: whiteHead,
     },
     {
-      id: 7,
+      id: 6,
       imgSrc: blackWatch,
     },
     {
-      id: 8,
+      id: 7,
       imgSrc: orangeWatch,
     },
     {
-      id: 9,
+      id: 8,
       imgSrc: blueWatch,
     },
     {
-      id: 10,
+      id: 9,
       imgSrc: home,
     },
     {
-      id: 11,
+      id: 10,
       imgSrc: blueHead,
     },
   ];
@@ -64,17 +65,26 @@ const Gallery = () => {
     new Array(data.length).fill(false)
   );
 
-   const handleCheckboxChanges = (index) => {
-     const updatedStates = [...checkboxStates];
-     updatedStates[index] = !updatedStates[index];
-     setCheckboxStates(updatedStates);
-   };
+  const handleCheckboxChanges = (index) => {
+    const updatedStates = [...checkboxStates];
+    updatedStates[index] = !updatedStates[index];
+    setCheckboxStates(updatedStates);
+  };
 
-   const handleDeleteImages=()=>{
-const updatedData = data.filter((_, index) => !checkboxStates[index]);
+  const handleDeleteImages = () => {
+    const updatedData = data.filter((_, index) => !checkboxStates[index]);
     setData(updatedData);
     setCheckboxStates(new Array(updatedData.length).fill(false));
-   }
+  };
+  const handleDragEnd = (result) => {
+    if (!result.destination) return; // No valid drop target
+
+    const reorderedData = [...data];
+    const [movedImage] = reorderedData.splice(result.source.index, 1);
+    reorderedData.splice(result.destination.index, 0, movedImage);
+
+    setData(reorderedData);
+  };
   return (
     <>
       <div>
@@ -101,99 +111,134 @@ const updatedData = data.filter((_, index) => !checkboxStates[index]);
         )}
       </div>
       <hr></hr>
-      <div className="py-10 px-10">
-        {
-          <div className="grid grid-cols-5 gap-6">
-            {data.map((data, index) => {
-              if (index === 0) {
-                return (
-                  <div
-                    key={index}
-                    className={`col-span-2 row-span-2 gradient image-container`}
-                  >
-                    <img
-                      src={data.imgSrc}
-                      alt=""
-                      className="border-2 rounded-lg w-full h-full object-cover gradient"
-                    />
-                    <div
-                      className={`${
-                        checkboxStates[index]
-                          ? "gradient-selected"
-                          : "gradient-overlay "
-                      }`}
-                    ></div>
+      <DragDropContext>
+        <Droppable droppableId="image-gallery">
+          {(provided) => (
+            <div
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              className="py-10 px-10"
+            >
+              {
+                <div className="grid grid-cols-5 gap-6">
+                  {data.map((data, index) => {
+                    if (index === 0) {
+                      return (
+                        <Draggable
+                          key={data.id}
+                          draggableId={data.id}
+                          index={index}
+                        >
+                          {(provided) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              className={`col-span-2 row-span-2 gradient image-container`}
+                            >
+                              <img
+                                src={data.imgSrc}
+                                alt=""
+                                className="border-2 rounded-lg w-full h-full object-cover gradient"
+                              />
+                              <div
+                                className={`${
+                                  checkboxStates[index]
+                                    ? "gradient-selected"
+                                    : "gradient-overlay "
+                                }`}
+                              ></div>
 
-                    {checkboxStates[index] ? (
-                      <div className="gradient-selected">
-                        <input
-                          type="checkbox"
-                          className="w-5 h-5 m-6 border rounded-lg"
-                          checked={checkboxStates[index]}
-                          onChange={() => handleCheckboxChanges(index)}
-                        />
-                      </div>
-                    ) : (
-                      <input
-                        type="checkbox"
-                        className="checkbox"
-                        checked={checkboxStates[index]}
-                        onChange={() => handleCheckboxChanges(index)}
-                      />
-                    )}
-                  </div>
-                );
-              } else {
-                return (
-                  <div
-                    key={index}
-                    className="col-span-1 gradient image-container"
-                  >
-                    <img
-                      src={data.imgSrc}
-                      alt=""
-                      className="border-2 rounded-lg w-full h-full object-cover gradient"
-                    />
-                    <div
-                      className={`${
-                        checkboxStates[index]
-                          ? "gradient-selected"
-                          : "gradient-overlay "
-                      }`}
-                    ></div>
-                    {checkboxStates[index] ? (
-                      <div className="gradient-selected">
-                        <input
-                          type="checkbox"
-                          className="w-5 h-5 m-2 border rounded-lg"
-                          checked={checkboxStates[index]}
-                          onChange={() => handleCheckboxChanges(index)}
-                        />
-                      </div>
-                    ) : (
-                      <input
-                        type="checkbox"
-                        className="checkbox"
-                        checked={checkboxStates[index]}
-                        onChange={() => handleCheckboxChanges(index)}
-                      />
-                    )}
-                  </div>
-                );
-              }
-            })}
-            <div className="col-span-1 outline-2 outline-dashed rounded-lg flex justify-center items-center">
-              <div className="text-center">
-                <i
-                  className="fa-regular fa-image
+                              {checkboxStates[index] ? (
+                                <div className="gradient-selected">
+                                  <input
+                                    type="checkbox"
+                                    className="w-5 h-5 m-6 border rounded-lg"
+                                    checked={checkboxStates[index]}
+                                    onChange={() =>
+                                      handleCheckboxChanges(index)
+                                    }
+                                  />
+                                </div>
+                              ) : (
+                                <input
+                                  type="checkbox"
+                                  className="checkbox"
+                                  checked={checkboxStates[index]}
+                                  onChange={() => handleCheckboxChanges(index)}
+                                />
+                              )}
+                            </div>
+                          )}
+                        </Draggable>
+                      );
+                    } else {
+                      return (
+                        <Draggable
+                          key={data.id}
+                          draggableId={data.id}
+                          index={index}
+                        >
+                          {(provided) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              className="col-span-1 gradient image-container"
+                            >
+                              <img
+                                src={data.imgSrc}
+                                alt=""
+                                className="border-2 rounded-lg w-full h-full object-cover gradient"
+                              />
+                              <div
+                                className={`${
+                                  checkboxStates[index]
+                                    ? "gradient-selected"
+                                    : "gradient-overlay "
+                                }`}
+                              ></div>
+                              {checkboxStates[index] ? (
+                                <div className="gradient-selected">
+                                  <input
+                                    type="checkbox"
+                                    className="w-5 h-5 m-2 border rounded-lg"
+                                    checked={checkboxStates[index]}
+                                    onChange={() =>
+                                      handleCheckboxChanges(index)
+                                    }
+                                  />
+                                </div>
+                              ) : (
+                                <input
+                                  type="checkbox"
+                                  className="checkbox"
+                                  checked={checkboxStates[index]}
+                                  onChange={() => handleCheckboxChanges(index)}
+                                />
+                              )}
+                            </div>
+                          )}
+                        </Draggable>
+                      );
+                    }
+                  })}
+                  <div className="col-span-1 outline-2 outline-dashed rounded-lg flex justify-center items-center">
+                    <div className="text-center">
+                      <i
+                        className="fa-regular fa-image
            fa-flip-horizontal fa-xl"
-                ></i>
-                <p className="mt-3">Add images</p>
-              </div>
+                      ></i>
+                      <p className="mt-3">Add images</p>
+                    </div>
+                  </div>
+                </div>
+              }
+              {provided.placeholder}
             </div>
-          </div>
-        }
-      </div>
+          )}
+        </Droppable>
+      </DragDropContext>
     </>
   );
 };
