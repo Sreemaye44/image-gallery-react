@@ -16,47 +16,47 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 const Gallery = () => {
   let initialData = [
     {
-      id: 0,
+      id: '0',
       imgSrc: telephone,
     },
     {
-      id: 1,
+      id: '1',
       imgSrc: greenHead,
     },
     {
-      id: 2,
+      id: '2',
       imgSrc: pinkHead,
     },
     {
-      id: 3,
+      id: '3',
       imgSrc: redHead,
     },
     {
-      id: 4,
+      id: '4',
       imgSrc: yellowHead,
     },
     {
-      id: 5,
+      id: '5',
       imgSrc: whiteHead,
     },
     {
-      id: 6,
+      id: '6',
       imgSrc: blackWatch,
     },
     {
-      id: 7,
+      id: '7',
       imgSrc: orangeWatch,
     },
     {
-      id: 8,
+      id: '8',
       imgSrc: blueWatch,
     },
     {
-      id: 9,
+      id: '9',
       imgSrc: home,
     },
     {
-      id: 10,
+      id: '10',
       imgSrc: blueHead,
     },
   ];
@@ -111,7 +111,7 @@ const Gallery = () => {
         )}
       </div>
       <hr></hr>
-      <DragDropContext>
+      <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="image-gallery">
           {(provided) => (
             <div
@@ -119,7 +119,7 @@ const Gallery = () => {
               ref={provided.innerRef}
               className="py-10 px-10"
             >
-              {
+              { 
                 <div className="grid grid-cols-5 gap-6">
                   {data.map((data, index) => {
                     if (index === 0) {
