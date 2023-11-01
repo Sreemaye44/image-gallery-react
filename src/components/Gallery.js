@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import blueHead from "../assets/images/image-1.webp";
 import home from "../assets/images/image-10.jpeg";
 import telephone from "../assets/images/image-11.jpeg";
@@ -10,12 +10,13 @@ import whiteHead from "../assets/images/image-6.webp";
 import blackWatch from "../assets/images/image-7.webp";
 import orangeWatch from "../assets/images/image-8.webp";
 import blueWatch from "../assets/images/image-9.webp";
+import "./Gallery.css";
 
 const Gallery = () => {
   let data = [
     {
       id: 1,
-      imgSrc: blueHead,
+      imgSrc: telephone,
     },
     {
       id: 2,
@@ -55,47 +56,110 @@ const Gallery = () => {
     },
     {
       id: 11,
-      imgSrc: telephone,
+      imgSrc: blueHead,
     },
-    
   ];
+  const [checkboxStates, setCheckboxStates] = useState(
+    new Array(data.length).fill(false)
+  );
+
+   const handleCheckboxChanges = (index) => {
+     const updatedStates = [...checkboxStates];
+     updatedStates[index] = !updatedStates[index];
+     setCheckboxStates(updatedStates);
+   };
   return (
     <>
-      {
-        <div className="grid grid-cols-5 gap-6">
-      {data.map((data, index) => {
-        if (index === 0) {
-          return (
-            <div key={index} className="col-span-2 row-span-2 group">
-  <input type="checkbox" id={`gradient-toggle-${index}`} className="opacity-0 absolute h-0 w-0"/>
-  <label htmlFor={`gradient-toggle-${index}`} className="absolute inset-0 cursor-pointer"></label>
-  <div className="relative">
-    <img src={data.imgSrc} alt="" className="border-2 rounded-lg w-full h-full object-cover" />
-    <div className="absolute inset-0 bg-gradient-to-br from-transparent to-transparent transition-all duration-300 opacity-0 group-hover:opacity-100">
-    hi 
-    </div>
-  </div>
-</div>
-          );
-        } else {
-          return (
-            <div key={index} className="col-span-1">
-              <img src={data.imgSrc} alt="" className="border-2 rounded-lg w-full h-full object-cover" />
+      <div>
+        {checkboxStates.includes(true) ? (
+          <div className="flex justify-between px-8 py-5">
+            <div className="flex">
+              <input
+                type="checkbox"
+                checked
+                className="h-6 w-6 mt-1 mx-1"
+              ></input>
+              <h1 className="text-2xl font-bold ml-2">{`${
+                checkboxStates.filter((isChecked) => isChecked).length
+              } files Selected`}</h1>
             </div>
-          );
-        }
-        
-      })}
-          <div className="col-span-1 outline-2 outline-dashed rounded-lg flex justify-center items-center">
-        
-            <div className="text-center">
-            <i className ="fa-regular fa-image
-           fa-flip-horizontal fa-xl"></i>
-              <p className="mt-3">Add images</p>
-         </div>
+            <p className="text-red-500">Delete files</p>
           </div>
-    </div>
-      }
+        ) : (
+          <h1 className="text-2xl font-bold px-8 py-5">Gallery</h1>
+        )}
+      </div>
+      <hr></hr>
+      <div className="py-10 px-10">
+        {
+          <div className="grid grid-cols-5 gap-6">
+            {data.map((data, index) => {
+              if (index === 0) {
+                return (
+                  <div
+                    key={index}
+                    className={`col-span-2 row-span-2 gradient image-container`}
+                  >
+                    <img
+                      src={data.imgSrc}
+                      alt=""
+                      className="border-2 rounded-lg w-full h-full object-cover gradient"
+                    />
+                    <div
+                      className={`${
+                        checkboxStates[index]
+                          ? "gradient-selected"
+                          : "gradient-overlay "
+                      }`}
+                    ></div>
+                    <input
+                      type="checkbox"
+                      class="checkbox"
+                      checked={checkboxStates[index]}
+                      onChange={() => handleCheckboxChanges(index)}
+                    ></input>
+                  </div>
+                );
+              } else {
+                return (
+                  <div
+                    key={index}
+                    className="col-span-1 gradient image-container"
+                  >
+                    <img
+                      src={data.imgSrc}
+                      alt=""
+                      className="border-2 rounded-lg w-full h-full object-cover gradient"
+                    />
+                    <div
+                      className={`${
+                        checkboxStates[index]
+                          ? "gradient-selected"
+                          : "gradient-overlay "
+                      }`}
+                    ></div>
+                    <input
+                      type="checkbox"
+                      class="checkbox"
+                      checked={checkboxStates[index]}
+                      onChange={() => handleCheckboxChanges(index)}
+                    ></input>
+                  </div>
+                );
+              }
+            })}
+            <div className="col-span-1 outline-2 outline-dashed rounded-lg flex justify-center items-center">
+              <div className="text-center">
+                <i
+                  className="fa-regular fa-image
+           fa-flip-horizontal fa-xl"
+                ></i>
+                <p className="mt-3">Add images</p>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
     </>
   );
 };
