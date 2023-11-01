@@ -112,12 +112,24 @@ const Gallery = () => {
                           : "gradient-overlay "
                       }`}
                     ></div>
-                    <input
-                      type="checkbox"
-                      class="checkbox"
-                      checked={checkboxStates[index]}
-                      onChange={() => handleCheckboxChanges(index)}
-                    ></input>
+
+                    {checkboxStates[index] ? (
+                      <div className="gradient-selected">
+                        <input
+                          type="checkbox"
+                          className="w-5 h-5 m-6 border rounded-lg"
+                          checked={checkboxStates[index]}
+                          onChange={() => handleCheckboxChanges(index)}
+                        />
+                      </div>
+                    ) : (
+                      <input
+                        type="checkbox"
+                        className="checkbox"
+                        checked={checkboxStates[index]}
+                        onChange={() => handleCheckboxChanges(index)}
+                      />
+                    )}
                   </div>
                 );
               } else {
@@ -138,12 +150,23 @@ const Gallery = () => {
                           : "gradient-overlay "
                       }`}
                     ></div>
-                    <input
-                      type="checkbox"
-                      class="checkbox"
-                      checked={checkboxStates[index]}
-                      onChange={() => handleCheckboxChanges(index)}
-                    ></input>
+                    {checkboxStates[index] ? (
+                      <div className="gradient-selected">
+                        <input
+                          type="checkbox"
+                          className="w-5 h-5 m-2 border rounded-lg"
+                          checked={checkboxStates[index]}
+                          onChange={() => handleCheckboxChanges(index)}
+                        />
+                      </div>
+                    ) : (
+                      <input
+                        type="checkbox"
+                        className="checkbox"
+                        checked={checkboxStates[index]}
+                        onChange={() => handleCheckboxChanges(index)}
+                      />
+                    )}
                   </div>
                 );
               }
