@@ -77,7 +77,6 @@ const Gallery = () => {
     setCheckboxStates(new Array(updatedData.length).fill(false));
   };
   const handleDragEnd = (result) => {
-    console.log("🚀 ~ file: Gallery.js:80 ~ handleDragEnd ~ result:", result)
     const{source, destination, type}=result;
     if (!destination) return; 
 
@@ -129,7 +128,7 @@ const Gallery = () => {
                 {...provided.droppableProps}
                 ref={provided.innerRef}
                 style={{ minHeight: "300px" }}
-                className="grid grid-cols-5 gap-6"
+                className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6"
               >
                 {data.map((data, index) => {
                   if (index === 0) {
@@ -229,7 +228,7 @@ const Gallery = () => {
                     );
                   }
                 })}
-                <div className="col-span-1 outline-2 outline-dashed rounded-lg flex justify-center items-center">
+                <div className="col-span-1 outline-2 outline-dashed rounded-lg flex justify-center items-center w-26 h-36 md:w-26 md:h-56 lg:min-h-full lg:min-w-full">
                   <div className="text-center">
                     <i
                       className="fa-regular fa-image
